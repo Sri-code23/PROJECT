@@ -1,0 +1,100 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+nav {
+    background-color: #f0f4f8;
+    border-bottom: 1px solid #cbd5e0;
+    padding: 1rem;
+}
+
+.dark-mode nav {
+    background-color: #1a202c;
+    border-bottom: 1px solid #4a5568;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    margin-left: 0.5rem;
+}
+
+.menu {
+    display: flex;
+}
+
+.menu-item, .dark-mode-toggle {
+    background: none;
+    border: none;
+    margin-left: 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.section {
+    display: none;
+    padding: 2rem;
+    text-align: center;
+}
+
+.active {
+    display: block;
+}
+
+.dark-mode body {
+    background-color: #1a202c;
+    color: #e2e8f0;
+}
+
+.explore-btn {
+    padding: 0.5rem 1rem;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+/* Avatar Styling */
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.project-card, .about-card, .contact-form {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 1rem auto;
+    max-width: 500px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .project-card, .dark-mode .about-card, .dark-mode .contact-form {
+    background-color: #2d3748;
+    color: #e2e8f0;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    border-top: 1px solid #cbd5e0;
+}
+
+.dark-mode footer {
+    border-top: 1px solid #4a5568;
+}

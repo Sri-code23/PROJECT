@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindMark</title>
+    <style>
+        :root {
+            --bg-dark: #000000;
+            --bg-light: #ffffff;
+            --text-dark: #e5e5e5;
+            --text-light: #1f2937;
+            --sidebar-bg-dark: rgba(24, 24, 27, 0.8);
+            --sidebar-bg-light: rgba(243, 244, 246, 0.8);
+            --card-bg-dark: #18181b;
+            --card-bg-light: #f3f4f6;
+            --blue-600: #2563eb;
+            --blue-700: #1d4ed8;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light-mode {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+        }
+
+        /* Removed sidebar CSS rules */
+
+
+        .main-content {
+            flex: 1;
+            padding: 1.5rem;
+            margin-left: 0;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+            z-index: 10;
+            padding: 1rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light-mode .header {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+        }
+
+        .header h1 {
+            font-size: 1.875rem;
+            font-weight: bold;
+            margin-left: 1rem;
+            color: inherit;
+        }
+
+        .header > * {
+            margin-right: 1rem;
+        }
+
+        .header > *:last-child {
+            margin-right: 0;
+        }
+
+        .btn {
+            background-color: transparent;
+            color: inherit;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 9999px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode .btn:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        body.light-mode .btn svg {
+            color: var(--text-light);
+        }
+
+        .btn-blue {
+            background-color: var(--blue-600);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .btn-blue:hover {
+            background-color: var(--blue-700);
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .search-container {
+            position: relative;
+            margin-left: auto;
+            margin-right: 1rem;
+        }
+
+        .search-bar {
+            position: absolute;
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            overflow: hidden;
+            transition: width 0.3s ease-in-out;
+            margin-right: 10px;
+        }
+
+        .search-bar.active {
+            width: 200px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.5rem 1rem 0.5rem 2rem;
+            background-color: var(--card-bg-dark);
+            border: 1px solid #3f3f46;
+            border-radius: 9999px;
+            color: inherit;
+            font-size: 0.875rem;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .search-bar.active input {
+            opacity: 1;
+        }
+
+        body.light-mode .search-bar input {
+            background-color: var(--card-bg-light);
+            border-color: #d1d5db;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #71717a;
+            pointer-events: none;
+        }
+
+        .note-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding-bottom: 5rem;
+        }
+
+        .note-card {
+            background-color: var(--card-bg-dark);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        body.light-mode .note-card {
+            background-color: var(--card-bg-light);
+        }
+
+        .note-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .note-card h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .note-card p {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #a1a1aa;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        body.light-mode .note-card p {
+            color: #4b5563;
+        }
+
+        .icon {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .copy-icon {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+            cursor: pointer;
+            background-color: transparent;
+            border: none;
+            padding: 0;
+        }
+
+        .note-card:hover .copy-icon {
+            opacity: 1;
+        }
+
+        .copy-icon svg {
+            width: 1rem;
+            height: 1rem;
+            color: var(--text-dark);
+        }
+
+        body.light-mode .copy-icon svg {
+            color: var(--text-light);
+        }
+
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg-dark);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        body.light-mode .modal-content {
+            background-color: var(--card-bg-light);
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+        }
+
+        .modal-content input,
+        .modal-content textarea {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+            border: 1px solid #3f3f46;
+            border-radius: 0.25rem;
+        }
+
+        body.light-mode .modal-content input,
+        body.light-mode .modal-content textarea {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            border-color: #d1d5db;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .btn-new-note {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            background-color: var(--blue-600);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.3s;
+            z-index: 100;
+        }
+
+        .btn-new-note:hover {
+            background-color: var(--blue-700);
+            transform: scale(1.05);
+        }
+
+        .btn-new-note svg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        body.light-mode .btn-new-note {
+            background-color: var(--blue-600);
+            color: white;
+        }
+
+        body.light-mode .btn-new-note:hover {
+            background-color: var(--blue-700);
+        }
+
+        .btn-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .btn-restore {
+            background-color: var(--blue-600);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-restore:hover {
+            background-color: var(--blue-700);
+        }
+    </style>
+</head>
+<body>
+
+    <main class="main-content" id="main-content">
+        <header class="header">
+            <h1>MindMark</h1>
+            <div class="search-container">
+                <button class="btn" id="search-toggle" aria-label="Search">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </button>
+                <div class="search-bar" id="search-bar">
+                    <input type="text" id="search-input" placeholder="Search notes...">
+                    <svg class="icon search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+            </div>
+            <button class="btn" id="dark-mode-toggle" aria-label="Toggle Dark Mode">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            </button>
+            <button class="btn" id="recycle-bin" aria-label="Recycle Bin">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+            </button>
+            <button class="btn" id="settings" aria-label="Settings">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            </button>
+            <button class="btn" id="sign-in">Sign In</button>
+        </header>
+
+        <div class="note-grid" id="note-grid"></div>
+
+        <button class="btn-new-note" id="create-note" aria-label="Create New Note">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+        </button>
+    </main>
+
+    <script>
+        const initialNotes = [
+            { id: 1, title: 'New Feature Brainstorm', content: 'Ideas for improving user experience:\n\n1. Implement dark mode\n2. Add drag-and-drop functionality\n3. Integrate voice notes\n4. Create a mobile app\n5. Implement real-time collaboration', isPinned: false, isFavorite: false },
+            { id: 2, title: 'Weekly Team Meeting', content: 'Discussed project timeline and milestones:\n\n- Sprint planning for next two weeks\n- Assigned tasks to team members\n- Reviewed progress on current sprint\n- Addressed blockers and challenges\n- Set goals for upcoming demo', isPinned: true, isFavorite: false },
+            { id: 3, title: 'Personal Goals', content: 'Set objectives for the next quarter:\n\n1. Learn a new programming language\n2. Read two books on leadership\n3. Start a side project\n4. Improve time management skills\n5. Attend a tech conference', isPinned: false, isFavorite: true },
+            { id: 4, title: 'Book Recommendations', content: 'List of books to read this summer:\n\n1. "The Pragmatic Programmer" by Andrew Hunt and David Thomas\n2. "Clean Code" by Robert C. Martin\n3. "Designing Data-Intensive Applications" by Martin Kleppmann\n4. "The Phoenix Project" by Gene Kim, Kevin Behr, and George Spafford\n5. "Grokking Algorithms" by Aditya Bhargava', isPinned: false, isFavorite: false },
+        ];
+
+        let notes = [...initialNotes];
+        let deletedNotes = [];
+        let currentFilter = 'all';
+
+        const mainContent = document.getElementById('main-content');
+        const noteGrid = document.getElementById('note-grid');
+        const searchBar = document.getElementById('search-bar');
+        const searchInput = document.getElementById('search-input');
+
+        // Removed toggleSidebar function
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('light-mode');
+        }
+
+        function toggleSearch() {
+            const searchBar = document.getElementById('search-bar');
+            searchBar.classList.toggle('active');
+            if (searchBar.classList.contains('active')) {
+                setTimeout(() => {
+                    searchInput.focus();
+                }, 300); // Wait for the animation to complete
+            } else {
+                searchInput.value = '';
+                renderNotes();
+            }
+        }
+
+        function renderNotes() {
+            noteGrid.innerHTML = '';
+            const filteredNotes = notes.filter(note => {
+                if (currentFilter === 'pinned') return note.isPinned;
+                if (currentFilter === 'favorites') return note.isFavorite;
+                return true;
+            }).filter(note => {
+                const searchTerm = searchInput.value.toLowerCase();
+                return note.title.toLowerCase().includes(searchTerm) || note.content.toLowerCase().includes(searchTerm);
+            });
+
+            filteredNotes.forEach(note => {
+                const noteCard = document.createElement('div');
+                noteCard.className = 'note-card';
+                noteCard.innerHTML = `
+                    <h3>${note.title}</h3>
+                    <p>${note.content.slice(0, 100)}${note.content.length > 100 ? '...' : ''}</p>
+                    <button class="copy-icon" aria-label="Copy note">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                    </button>
+                `;
+                noteCard.addEventListener('click', (e) => {
+                    if (!e.target.closest('.copy-icon')) {
+                        openNoteModal(note);
+                    }
+                });
+                noteCard.querySelector('.copy-icon').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    copyNoteToClipboard(note);
+                });
+                noteGrid.appendChild(noteCard);
+            });
+        }
+
+        function copyNoteToClipboard(note) {
+            const noteContent = `${note.title}\n\n${note.content}`;
+            navigator.clipboard.writeText(noteContent).then(() => {
+                alert('Note copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy note: ', err);
+            });
+        }
+
+        function createNote() {
+            openNoteModal({
+                id: Date.now(),
+                title: '',
+                content: '',
+                isPinned: false,
+                isFavorite: false
+            }, true);
+        }
+
+        function openNoteModal(note, isNew = false) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <button class="btn-close" id="close-modal" aria-label="Close">×</button>
+                    <h2>${isNew ? 'Create Note' : 'Edit Note'}</h2>
+                    <input type="text" id="note-title" value="${note.title}" placeholder="Note Title">
+                    <textarea id="note-content" rows="10" placeholder="Note Content">${note.content}</textarea>
+                    <div class="modal-actions">
+                        ${!isNew ? `
+                            <button class="btn" id="delete-note">Delete</button>
+                            <button class="btn" id="pin-note">${note.isPinned ? 'Unpin' : 'Pin'}</button>
+                            <button class="btn" id="favorite-note">${note.isFavorite ? 'Unfavorite' : 'Favorite'}</button>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            const titleInput = document.getElementById('note-title');
+            const contentInput = document.getElementById('note-content');
+            const closeButton = document.getElementById('close-modal');
+
+            if (!isNew) {
+                const deleteButton = document.getElementById('delete-note');
+                const pinButton = document.getElementById('pin-note');
+                const favoriteButton = document.getElementById('favorite-note');
+
+                deleteButton.addEventListener('click', () => {
+                    notes = notes.filter(n => n.id !== note.id);
+                    deletedNotes.push(note);
+                    renderNotes();
+                    document.body.removeChild(modal);
+                });
+
+                pinButton.addEventListener('click', () => {
+                    note.isPinned = !note.isPinned;
+                    pinButton.textContent = note.isPinned ? 'Unpin' : 'Pin';
+                });
+
+                favoriteButton.addEventListener('click', () => {
+                    note.isFavorite = !note.isFavorite;
+                    favoriteButton.textContent = note.isFavorite ? 'Unfavorite' : 'Favorite';
+                });
+            }
+
+            closeButton.addEventListener('click', () => {
+                saveAndCloseModal(note, isNew, titleInput, contentInput, modal);
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    saveAndCloseModal(note, isNew, titleInput, contentInput, modal);
+                }
+            });
+        }
+
+        function saveAndCloseModal(note, isNew, titleInput, contentInput, modal) {
+            const newTitle = titleInput.value.trim();
+            const newContent = contentInput.value.trim();
+
+            if (newTitle || newContent) {
+                note.title = newTitle || 'Untitled';
+                note.content = newContent;
+
+                if (isNew) {
+                    notes.unshift(note);
+                }
+
+                renderNotes();
+            }
+
+            document.body.removeChild(modal);
+        }
+
+        function openRecycleBin() {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h2>Recycle Bin</h2>
+                    <div id="deleted-notes-list"></div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            const deletedNotesList = document.getElementById('deleted-notes-list');
+            deletedNotes.forEach(note => {
+                const noteItem = document.createElement('div');
+                noteItem.innerHTML = `
+                    <p>${note.title}</p>
+                    <button class="btn btn-restore" data-id="${note.id}">Restore Note</button>
+                `;
+                deletedNotesList.appendChild(noteItem);
+            });
+
+            deletedNotesList.addEventListener('click', (e) => {
+                if (e.target.classList.contains('btn-restore')) {
+                    const noteId = parseInt(e.target.getAttribute('data-id'));
+                    const noteToRestore = deletedNotes.find(note => note.id === noteId);
+                    notes.push(noteToRestore);
+                    deletedNotes = deletedNotes.filter(note => note.id !== noteId);
+                    renderNotes();
+                    openRecycleBin(); // Refresh the recycle bin modal
+                }
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+
+        function openSettings() {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h2>Settings</h2>
+                    <p>Dark Mode: <button class="btn" id="toggle-dark-mode">Toggle</button></p>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            document.getElementById('toggle-dark-mode').addEventListener('click', toggleDarkMode);
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+
+        document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
+        document.getElementById('search-toggle').addEventListener('click', toggleSearch);
+        document.getElementById('create-note').addEventListener('click', createNote);
+        document.getElementById('recycle-bin').addEventListener('click', openRecycleBin);
+        document.getElementById('settings').addEventListener('click', openSettings);
+        searchInput.addEventListener('input', renderNotes);
+
+        // Initialize the app
+        renderNotes();
+
+
+        // Removed event listener for closing sidebar when clicking outside
+
+        // Google Authentication (placeholder)
+        document.getElementById('sign-in').addEventListener('click', () => {
+            alert('Google Authentication is not implemented in this demo. In a real application, this would initiate the Google Sign-In process.');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Image Upload and Display</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <!-- Same navigation as index.html -->
+    </header>
+
+    <main>
+        <section class="gallery-controls">
+            <input type="text" id="searchInput" placeholder="Search images...">
+            <select id="filterSelect">
+                <option value="">Filter by tag</option>
+                <!-- Add options dynamically with JavaScript -->
+            </select>
+        </section>
+
+        <section class="gallery-grid" id="galleryGrid">
+            <!-- Images will be loaded here dynamically -->
+        </section>
+    </main>
+
+    <div id="lightbox" class="lightbox">
+        <span class="close">&times;</span>
+        <img class="lightbox-content" id="lightboxImage">
+        <div id="lightboxCaption"></div>
+    </div>
+
+    <footer>
+        <!-- Same footer as index.html -->
+    </footer>
+
+    <script src="js/gallery.js"></script>
+    <script src="js/lightbox.js"></script>
+</body>
+</html>

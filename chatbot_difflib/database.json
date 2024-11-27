@@ -1,0 +1,69 @@
+{
+    "Questions": [
+        {
+            "question": "Hello",
+            "answer": "Hello !"
+        },
+        {
+            "question": "",
+            "answer": "what would you like to do ?"
+        },
+        {
+            "question": "hi",
+            "answer": "hey"
+        },
+        {
+            "question": "what is your name",
+            "answer": "Chatbot"
+        },
+        {
+            "question": "your name",
+            "answer": "chatbot"
+        },
+        {
+            "question": "name",
+            "answer": "chatbot"
+        },
+        {
+            "question": "how you doin",
+            "answer": "fine"
+        },
+        {
+            "question": "how are you",
+            "answer": "Fine"
+        },
+        {
+            "question": "hey",
+            "answer": "hey"
+        },
+        {
+            "question": "good morning",
+            "answer": "Good morning!"
+        },
+        {
+            "question": "good afternoon",
+            "answer": "Good afternoon!"
+        },
+        {
+            "question": "good evening",
+            "answer": "Good evening!"
+        },
+        {
+            "question": "good night",
+            "answer": "Good night!"
+        },
+        {
+            "question": "what is your purpose",
+            "answer": "I am here to assist you."
+        },
+        {
+            "question": "what can you do",
+            "answer": "I can answer your questions and provide information."
+        },
+        {
+            "question": "can you help me",
+            "answer": "Yes, I can help you with any questions or information you need."
+        }
+    ]
+}
+

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image - Image Upload and Display</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <!-- Same navigation as index.html -->
+    </header>
+
+    <main>
+        <section class="upload-form">
+            <h2>Upload an Image</h2>
+            <form id="imageUploadForm">
+                <div class="drag-drop-zone" id="dragDropZone">
+                    <p>Drag and drop your image here</p>
+                    <input type="file" id="fileInput" accept="image/*">
+                </div>
+                <div id="imagePreview"></div>
+                <input type="text" id="caption" placeholder="Add a caption">
+                <input type="text" id="tags" placeholder="Add tags (comma-separated)">
+                <button type="submit" id="uploadButton" disabled>Upload</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <!-- Same footer as index.html -->
+    </footer>
+
+    <script src="js/upload.js"></script>
+</body>
+</html>

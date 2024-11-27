@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url(blossom.jpg);
+    background-size: cover; /* Makes the image cover the entire background */
+    background-repeat: no-repeat; /* Prevents the background image from repeating */
+    background-attachment:scroll ; /* Makes the background image stay in place while scrolling */
+    background-position: center; /* Centers the background image */
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h1 {
+    color: #1793b3; /* Change text color to be visible on the background image */
+    margin-top: 20px;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+}
+
+.photo {
+    background-color: rgba(83, 82, 82, 0.8); /* Add a slight white background to photos for better visibility */
+    border: 1px solid #050505;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 200px;
+}
+
+.photo img {
+    width: 100%;
+    height: auto;
+    display: block;
+}

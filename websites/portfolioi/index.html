@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light-mode">
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <span class="icon-zap">⚡</span>
+                <h1>Minimalist Portfolio</h1>
+            </div>
+            <div class="menu">
+                <button class="menu-item" onclick="setActiveSection('home')">Home</button>
+                <button class="menu-item" onclick="setActiveSection('about')">About</button>
+                <button class="menu-item" onclick="setActiveSection('projects')">Projects</button>
+                <button class="menu-item" onclick="setActiveSection('contact')">Contact</button>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="profile">
+                <img src="placeholder.svg" alt="Profile Picture" class="avatar">
+                <h2>Welcome to My Minimalist World</h2>
+                <p>Crafting clean, efficient, and innovative digital solutions</p>
+                <button class="explore-btn" onclick="setActiveSection('projects')">Explore My Work</button>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="about-card">
+                <img src="placeholder.svg" alt="Profile Picture" class="avatar">
+                <h2>About Me</h2>
+                <p>Full-stack Developer | UI/UX Enthusiast</p>
+                <p>I'm a passionate developer with a focus on clean, scalable code using React and Node.js.</p>
+                <ul class="skills">
+                    <li>👨‍💻 Frontend Development</li>
+                    <li>🗄️ Backend Development</li>
+                    <li>🎨 UI/UX Design</li>
+                    <li>☁️ Cloud Deployment</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <div class="project-card">
+                <h3>E-commerce Platform</h3>
+                <p>Full-stack solution with React and Node.js</p>
+                <button>View Project</button>
+            </div>
+            <div class="project-card">
+                <h3>Task Manager</h3>
+                <p>Kanban-style app with drag-and-drop functionality</p>
+                <button>View Project</button>
+            </div>
+            <div class="project-card">
+                <h3>Weather Dashboard</h3>
+                <p>Real-time weather data visualization</p>
+                <button>View Project</button>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="contact-form">
+                <h2>Get in Touch</h2>
+                <form>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="Your name">
+                    
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Your email">
+                    
+                    <label for="message">Message</label>
+                    <textarea id="message" placeholder="Your message"></textarea>
+
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Minimalist Portfolio. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
